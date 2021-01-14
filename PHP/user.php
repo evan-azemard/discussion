@@ -173,6 +173,7 @@ $password = $_POST["password"];
                 }else echo '<center> Veuillez remplir tous les champs </center>';
         }
 }
+
 ?>
 <!-- Modification Profil-->
 <?php
