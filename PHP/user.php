@@ -86,11 +86,6 @@
 ?>
 <!-- ---------------------------------------------------------Procedural---------------------------------------------------------------- -->
 
-<!-- 
-
-    arrondire boutton envoyer centrer texte area et arrondire aussi -->
-
-
 
 
 
@@ -110,7 +105,12 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
     $password = $_POST["password"];
     $r_password = $_POST["r_password"];
-    //ACHER LE PASSWORD /!\ 
+
+
+    $hpass = password_hash($password, PASSWORD_DEFAULT);
+
+
+
     if ($pseudo && $password && $r_password) {
         if (strlen($pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -143,7 +143,7 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     }
     if (count($error) < 1)   //Si il n'y à pas d'erreurs, on inssére les données dans le table utilisateurs de la bdd.
     {
-        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $password . '")';
+        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $hpass . '")';
         $res = mysqli_query($bdd, $sql);
         header('Location: connexion.php');
     }
@@ -152,20 +152,27 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 <!-- Connexion -->
 <?php
 if (isset($_POST["connexion"])) {
-    $pseudo = $_POST["login"];
-    $password = $_POST["password"];
-    if ($pseudo && $password) {
-        $sql = 'SELECT `id`,`login` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '" AND `password` = "' . $password . '";';
-        $res = mysqli_query($bdd, $sql);
-        foreach ($res as $row) {
+  
+$pseudo = $_POST["login"];
+$password = $_POST["password"];
+
+        if ($pseudo && $password) {
+            $sql = 'SELECT `id`,`login`,`password` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '";';
+            $res = mysqli_query($bdd, $sql);
+
+            
+            foreach ($res as $row) {
             //on créer un varialbe $SESSION et on y range dedans l'id  et le login contenue dans la variable $row pour pouvroi les utilisé plus facilement plus tard.
             $_SESSION["id"] = $row["id"];
             $_SESSION["login"] = $row["login"];
+            $hpass = $row["password"];
             header('Location: index.php');
+            }
+                if(password_verify($password, $hpass)) {    
+                echo "<center>Identifiants Invalides.</center>";
+                }else echo '<center> Veuillez remplir tous les champs </center>';
         }
-        echo "<center>Identifiants Invalides.</center>";
-    } else echo '<center> Veuillez remplir tous les champs </center>';
-}
+}else echo 'mauvais password';
 ?>
 <!-- Modification Profil-->
 <?php
@@ -197,7 +204,6 @@ if (isset($_POST["modifier"])) {
         header('location: connexion.php');
     }
 }
-
 ?>
 
 
