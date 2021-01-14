@@ -86,11 +86,14 @@
 ?>
 <!-- ---------------------------------------------------------Procedural---------------------------------------------------------------- -->
 
+<<<<<<< HEAD
 <!-- 
 
     arrondir boutton envoyer centrer texte area et arrondire aussi -->
 
 
+=======
+>>>>>>> 8cc0e6854e9202219c716057292f416f0f85fa87
 
 
 
@@ -112,7 +115,16 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     $pseudo = $_POST["login"];         //On place les données des input dans des variables.
     $password = $_POST["password"];
     $r_password = $_POST["r_password"];
+<<<<<<< HEAD
     //HACHER LE PASSWORD /!\ 
+=======
+
+
+    $hpass = password_hash($password, PASSWORD_DEFAULT);
+
+
+
+>>>>>>> 8cc0e6854e9202219c716057292f416f0f85fa87
     if ($pseudo && $password && $r_password) {
         if (strlen($pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -145,7 +157,7 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     }
     if (count($error) < 1)   //Si il n'y à pas d'erreurs, on inssére les données dans le table utilisateurs de la bdd.
     {
-        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $password . '")';
+        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $hpass . '")';
         $res = mysqli_query($bdd, $sql);
         header('Location: connexion.php');
     }
@@ -154,19 +166,26 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 <!-- Connexion -->
 <?php
 if (isset($_POST["connexion"])) {
-    $pseudo = $_POST["login"];
-    $password = $_POST["password"];
-    if ($pseudo && $password) {
-        $sql = 'SELECT `id`,`login` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '" AND `password` = "' . $password . '";';
-        $res = mysqli_query($bdd, $sql);
-        foreach ($res as $row) {
+  
+$pseudo = $_POST["login"];
+$password = $_POST["password"];
+
+        if ($pseudo && $password) {
+            $sql = 'SELECT `id`,`login`,`password` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '";';
+            $res = mysqli_query($bdd, $sql);
+
+            
+            foreach ($res as $row) {
             //on créer un varialbe $SESSION et on y range dedans l'id  et le login contenue dans la variable $row pour pouvroi les utilisé plus facilement plus tard.
             $_SESSION["id"] = $row["id"];
             $_SESSION["login"] = $row["login"];
+            $hpass = $row["password"];
             header('Location: index.php');
+            }
+                if(password_verify($password, $hpass)) {    
+                echo "<center>Identifiants Invalides.</center>";
+                }else echo '<center> Veuillez remplir tous les champs </center>';
         }
-        echo "<center>Identifiants Invalides.</center>";
-    } else echo '<center> Veuillez remplir tous les champs </center>';
 }
 ?>
 <!-- Modification Profil-->
@@ -175,6 +194,8 @@ if (isset($_POST["modifier"])) {
 
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
+    $hpass = password_hash($password, PASSWORD_DEFAULT);
+
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -193,12 +214,13 @@ if (isset($_POST["modifier"])) {
         echo "• " . $erreure . "<br>";
     }
     if (count($error) < 1) {
-        $sql  =  'UPDATE `utilisateurs` SET `login` = "' . $n_pseudo . '" , `password` = "' . $n_password . '" WHERE `id` = "' . $_SESSION["id"] . '"; ';
+        $sql  =  'UPDATE `utilisateurs` SET `login` = "' . $n_pseudo . '" , `password` = "' . $hpass . '" WHERE `id` = "' . $_SESSION["id"] . '"; ';
         $res = mysqli_query($bdd, $sql);
         session_unset();
         header('location: connexion.php');
     }
 }
+
 ?>
 
 
