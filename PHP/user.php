@@ -204,9 +204,9 @@ if (isset($_POST["modifier"])) {
         $res = mysqli_query($bdd, $sql);
         session_unset();
         header('location: connexion.php');
+ 
     }
 }
-
 ?>
 
 
