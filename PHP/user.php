@@ -86,11 +86,6 @@
 ?>
 <!-- ---------------------------------------------------------Procedural---------------------------------------------------------------- -->
 
-<!-- 
-
-    arrondire boutton envoyer centrer texte area et arrondire aussi -->
-
-
 
 
 
@@ -110,7 +105,13 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
     $password = $_POST["password"];
     $r_password = $_POST["r_password"];
-    //ACHER LE PASSWORD /!\ 
+
+    $hpass = password_hash($password, PASSWORD_DEFAULT);
+
+    var_dump($hpass);
+
+
+
     if ($pseudo && $password && $r_password) {
         if (strlen($pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -143,7 +144,7 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     }
     if (count($error) < 1)   //Si il n'y à pas d'erreurs, on inssére les données dans le table utilisateurs de la bdd.
     {
-        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $password . '")';
+        $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $hpass . '")';
         $res = mysqli_query($bdd, $sql);
         header('Location: connexion.php');
     }
@@ -152,8 +153,15 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 <!-- Connexion -->
 <?php
 if (isset($_POST["connexion"])) {
+  
     $pseudo = $_POST["login"];
     $password = $_POST["password"];
+
+if(password_verify($password, $hpass)) {
+
+    
+    } 
+
     if ($pseudo && $password) {
         $sql = 'SELECT `id`,`login` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '" AND `password` = "' . $password . '";';
         $res = mysqli_query($bdd, $sql);
