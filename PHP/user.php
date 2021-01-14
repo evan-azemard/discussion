@@ -176,6 +176,9 @@ if (isset($_POST["modifier"])) {
 
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
+
+    $hpass = password_hash($n_password, PASSWORD_DEFAULT);
+
    
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
@@ -197,7 +200,7 @@ if (isset($_POST["modifier"])) {
         }
     
             if (count($error) < 1) {
-                $sql  =  'UPDATE `utilisateurs` SET `login` = "' . $n_pseudo . '" , `password` = "' . $n_password . '" WHERE `id` = "' . $_SESSION["id"] . '"; ';
+                $sql  =  'UPDATE `utilisateurs` SET `login` = "' . $n_pseudo . '" , `password` = "' . $hpass . '" WHERE `id` = "' . $_SESSION["id"] . '"; ';
                 $res = mysqli_query($bdd, $sql);
                 session_unset();
                 header('location: connexion.php');
