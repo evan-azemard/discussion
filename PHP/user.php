@@ -86,23 +86,13 @@
 ?>
 <!-- ---------------------------------------------------------Procedural---------------------------------------------------------------- -->
 
-<<<<<<< HEAD
-<!-- 
-
-    arrondir boutton envoyer centrer texte area et arrondire aussi -->
-
-
-=======
->>>>>>> 8cc0e6854e9202219c716057292f416f0f85fa87
 
 
 
 <!-- Inscription -->
 <?php
-$error = array();     //la table stoke les erreurs.
+$error = array();     //le table stoke les erreurs.
 $bdd = new mysqli("localhost", "root", "", "discussion");
-// $bdd = new PDO('mysql:host=nomserveur; dbname=nombase', 'discussion', '');
-
 if (!$bdd)              //Si la bdd ne s'ouvre pas on affiche les erreurs.
 {
     echo "Erreur : Impossible de se connecter à MySQL." . PHP_EOL;
@@ -112,19 +102,15 @@ if (!$bdd)              //Si la bdd ne s'ouvre pas on affiche les erreurs.
 }
 if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 {
-    $pseudo = $_POST["login"];         //On place les données des input dans des variables.
+    $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
     $password = $_POST["password"];
     $r_password = $_POST["r_password"];
-<<<<<<< HEAD
-    //HACHER LE PASSWORD /!\ 
-=======
 
 
     $hpass = password_hash($password, PASSWORD_DEFAULT);
 
 
 
->>>>>>> 8cc0e6854e9202219c716057292f416f0f85fa87
     if ($pseudo && $password && $r_password) {
         if (strlen($pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
