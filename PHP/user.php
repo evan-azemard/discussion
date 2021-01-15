@@ -92,14 +92,13 @@
 <!-- Inscription -->
 <?php
 $error = array();    
-// $bdd = new mysqli("localhost", "root", "", "discussion");
+
+
+$bdd = new mysqli("localhost", "root", "", "discussion");
 
 
  // $bdd = new PDO('mysql:host=localhost;dbname=discussion', 'root', '');       
 
-$bdd = new PDO('mysql:host=localhost;dbname=discussion', 'root', '', array(
-    PDO::ATTR_PERSISTENT => true
-));
 
 if (!$bdd){              //Si la bdd ne s'ouvre pas on affiche les erreurs.
     echo "Erreur : Impossible de se connecter à MySQL." . PHP_EOL;
