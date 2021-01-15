@@ -174,10 +174,9 @@ if (isset($_POST["modifier"])) {
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
     $hpass = password_hash($n_password, PASSWORD_DEFAULT);
-<<<<<<< HEAD
 
-=======
->>>>>>> c3d686331daaa7bb8ae2419abcc2c7da8b516941
+
+
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
