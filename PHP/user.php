@@ -175,7 +175,8 @@ $password = $_POST["password"];
 }
 
 ?>
-<!-- Modification Profil-->
+<!-- Modification Profil.-->
+
 <?php
 if (isset($_POST["modifier"])) {
 
