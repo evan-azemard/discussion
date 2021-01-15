@@ -105,12 +105,7 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
     $password = $_POST["password"];
     $r_password = $_POST["r_password"];
-
-
     $hpass = password_hash($password, PASSWORD_DEFAULT);
-
-
-
     if ($pseudo && $password && $r_password) {
         if (strlen($pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -152,26 +147,22 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 <!-- Connexion -->
 <?php
 if (isset($_POST["connexion"])) {
-  
-$pseudo = $_POST["login"];
-$password = $_POST["password"];
+    $pseudo = $_POST["login"];
+    $password = $_POST["password"];
 
-        if ($pseudo && $password) {
-            $sql = 'SELECT `id`,`login`,`password` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '";';
-            $res = mysqli_query($bdd, $sql);
-
-            
-            foreach ($res as $row) {
+    if ($pseudo && $password) {
+        $sql = 'SELECT `id`,`login`,`password` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '";';
+        $res = mysqli_query($bdd, $sql);
+        foreach ($res as $row) {
             //on créer un varialbe $SESSION et on y range dedans l'id  et le login contenue dans la variable $row pour pouvroi les utilisé plus facilement plus tard.
             $_SESSION["id"] = $row["id"];
             $_SESSION["login"] = $row["login"];
             $hpass = $row["password"];
-            
-            }
-                if(password_verify($password, $hpass)) {    
-                    header('Location: index.php');
-                }else echo '<center> Veuillez remplir tous les champs </center>';
         }
+        if (password_verify($password, $hpass)) {
+            header('Location: index.php');
+        } else echo '<center> Veuillez remplir tous les champs </center>';
+    }
 }
 
 ?>
@@ -183,7 +174,6 @@ if (isset($_POST["modifier"])) {
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
     $hpass = password_hash($password, PASSWORD_DEFAULT);
-
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -206,10 +196,6 @@ if (isset($_POST["modifier"])) {
         $res = mysqli_query($bdd, $sql);
         session_unset();
         header('location: connexion.php');
- 
     }
 }
 ?>
-
-
-
