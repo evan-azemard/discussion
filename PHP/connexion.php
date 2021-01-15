@@ -153,7 +153,7 @@ if (isset($_SESSION["id"])) {
 						</div>
 						<div class="ins_container1_1">
 							<div class="ins_container1_3">
-								<input type="text" id="login" name="login" placeholder="Pseudo">
+								<input type="text" id="login" name="login" placeholder="Pseudo" required="required">
 							</div>
 						</div>
 					</div>
@@ -172,7 +172,7 @@ if (isset($_SESSION["id"])) {
 						</div>
 						<div class="ins_container1_1">
 							<div class="ins_container1_3">
-								<input type="password" id="password" name="password" placeholder="Mot de passe">
+								<input type="password" id="password" name="password" placeholder="Mot de passe" required="required">
 							</div>
 						</div>
 					</div>

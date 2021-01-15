@@ -91,15 +91,16 @@
 
 <!-- Inscription -->
 <?php
-$error = array();     //le table stoke les erreurs.
+$error = array();    
 $bdd = new mysqli("localhost", "root", "", "discussion");
-if (!$bdd)              //Si la bdd ne s'ouvre pas on affiche les erreurs.
-{
+
+if (!$bdd){              //Si la bdd ne s'ouvre pas on affiche les erreurs.
     echo "Erreur : Impossible de se connecter à MySQL." . PHP_EOL;
     echo "Errno de débogage : " . mysqli_connect_errno() . PHP_EOL;
     echo "Erreur de débogage : " . mysqli_connect_error() . PHP_EOL;
     exit;
 }
+<<<<<<< HEAD
 if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
 {
     $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
@@ -144,17 +145,64 @@ if (isset($_POST["inscription"]))      //Pour le formulaire d'inscription...
     if (count($error) < 1)   //Si il n'y à pas d'erreurs, on inssére les données dans le table utilisateurs de la bdd.
     {
         $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $hpass . '")';
+=======
+    if (isset($_POST["inscription"])) {      //Pour le formulaire d'inscription...
+   
+        $pseudo = $_POST["login"];         //On place les donné des input dans des variables.
+        $password = $_POST["password"];
+        $r_password = $_POST["r_password"];
+
+        $hpass = password_hash($password, PASSWORD_DEFAULT);
+
+        if ($pseudo && $password && $r_password) {
+            if (strlen($pseudo) > 12) {
+                array_push($error, "Le pseudo est trop long");
+            }
+            if (strlen($pseudo) < 4) {
+                array_push($error, "Le pseudo est trop court");
+            }
+            if ($password !== $r_password) {
+                array_push($error, "Le mot de passe répété n'est pas le même");
+            }
+            if ($pseudo == $password) {
+                array_push($error, "Le pseudo et le mot de passe ne doivent pas être identique");
+            }
+            if (strLen($password) < 5) {
+                array_push($error, "Le mot de passe dois faire au moins 5 caractères");
+            }
+        }else array_push($error, "Veuillez remplir tous les champs");
+    
+        $sql = "SELECT * FROM utilisateurs";    //On ce connecte a la base utilisateur.
+>>>>>>> evan
         $res = mysqli_query($bdd, $sql);
-        header('Location: connexion.php');
+        
+        foreach ($res as $row) {             //foreach va faire une boucle, parcourire mon tableaux $res et le "as" va dire de ranger les donnée de $res dans une nouvelle variable $row)
+            if ($row["login"] == $pseudo) {    //On selectione le champs "login" de ma bdd , si c'est identique au pseudo on affiche le message.)
+                array_push($error, "Le pseudo est déja utilisé");
+            }
+        }
+            foreach ($error as $erreure) {      //Toutes les erreurs trouvé sont mis dans la variable $erreurs puis on les écrit.
+                echo "• " . $erreure . "<br>";
+            }
+                if (count($error) < 1) {   //Si il n'y à pas d'erreurs, on inssére les données dans le table utilisateurs de la bdd.
+                    $sql = 'INSERT INTO `utilisateurs`(`login`, `password`) VALUES ("' . $pseudo . '","' . $hpass . '")';
+                    $res = mysqli_query($bdd, $sql);
+                    header('Location: connexion.php');
+                }
     }
-}
+
 ?>
 <!-- Connexion -->
 <?php
 if (isset($_POST["connexion"])) {
   
+<<<<<<< HEAD
 $pseudo = $_POST["login"];
 $password = $_POST["password"];
+=======
+    $pseudo = $_POST["login"];
+    $password = $_POST["password"];
+>>>>>>> evan
 
         if ($pseudo && $password) {
             $sql = 'SELECT `id`,`login`,`password` FROM `utilisateurs` WHERE `login` = "' . $pseudo . '";';
@@ -166,11 +214,18 @@ $password = $_POST["password"];
             $_SESSION["id"] = $row["id"];
             $_SESSION["login"] = $row["login"];
             $hpass = $row["password"];
+<<<<<<< HEAD
             header('Location: index.php');
             }
                 if(password_verify($password, $hpass)) {    
                 echo "<center>Identifiants Invalides.</center>";
                 }else echo '<center> Veuillez remplir tous les champs </center>';
+=======
+            }
+                if(password_verify($password, $hpass)) {    
+                    header('Location: index.php');
+                }else echo '<center> Mot de passe invalide </center>';
+>>>>>>> evan
         }
 }
 
@@ -181,8 +236,15 @@ if (isset($_POST["modifier"])) {
 
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
+<<<<<<< HEAD
     $hpass = password_hash($password, PASSWORD_DEFAULT);
 
+=======
+
+    $hpass = password_hash($n_password, PASSWORD_DEFAULT);
+
+   
+>>>>>>> evan
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
@@ -196,6 +258,7 @@ if (isset($_POST["modifier"])) {
         if (strLen($n_password) < 5) {
             array_push($error, "Le mot de passe dois faire au moins 5 caractères");
         }
+<<<<<<< HEAD
     } else array_push($error, "Veuillez remplir tous les champs");
     foreach ($error as $erreure) {
         echo "• " . $erreure . "<br>";
@@ -207,8 +270,19 @@ if (isset($_POST["modifier"])) {
         header('location: connexion.php');
  
     }
+=======
+    }else array_push($error, "Veuillez remplir tous les champs");
+       
+        foreach ($error as $erreure) {
+            echo "• " . $erreure . "<br>";
+        }
+    
+            if (count($error) < 1) {
+                $sql  =  'UPDATE `utilisateurs` SET `login` = "' . $n_pseudo . '" , `password` = "' . $hpass . '" WHERE `id` = "' . $_SESSION["id"] . '"; ';
+                $res = mysqli_query($bdd, $sql);
+                session_unset();
+                header('location: connexion.php');
+            }
+>>>>>>> evan
 }
 ?>
-
-
-
