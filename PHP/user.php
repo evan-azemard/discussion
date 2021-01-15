@@ -162,11 +162,10 @@ if (isset($_POST["connexion"])) {
             $_SESSION["id"] = $row["id"];
             $_SESSION["login"] = $row["login"];
             $hpass = $row["password"];
-            header('Location: index.php');
             }
                 if(password_verify($password, $hpass)) {    
-                echo "<center>Identifiants Invalides.</center>";
-                }else echo '<center> Veuillez remplir tous les champs </center>';
+                    header('Location: index.php');
+                }else echo '<center> Mot de passe invalide </center>';
         }
 }
 ?>
