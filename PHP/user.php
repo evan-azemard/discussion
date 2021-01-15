@@ -161,7 +161,7 @@ if (isset($_POST["connexion"])) {
         }
         if (password_verify($password, $hpass)) {
             header('Location: index.php');
-        } else echo '<center> Veuillez remplir tous les champs </center>';
+        } else echo '<center> Mauvais mot de passe</center>';
     }
 }
 
@@ -173,7 +173,7 @@ if (isset($_POST["modifier"])) {
 
     $n_pseudo = $_POST["n_login"];
     $n_password = $_POST["n_password"];
-    $hpass = password_hash($password, PASSWORD_DEFAULT);
+    $hpass = password_hash($n_password, PASSWORD_DEFAULT);
     if ($n_pseudo && $n_password) {
         if (strlen($n_pseudo) > 12) {
             array_push($error, "Le pseudo est trop long");
