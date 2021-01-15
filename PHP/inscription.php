@@ -227,5 +227,4 @@ if (isset($_SESSION["id"])) {
 		</main>
 	</section>
 </body>
-
 </html>
