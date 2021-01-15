@@ -169,7 +169,8 @@ if (isset($_POST["connexion"])) {
         }
 }
 ?>
-<!-- Modification Profil-->
+<!-- Modification Profil.-->
+
 <?php
 if (isset($_POST["modifier"])) {
 
