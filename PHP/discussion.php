@@ -183,7 +183,7 @@ if (isset($_POST["envoyer"])) {
 					</div>
 				</div>
 			</div>
-			<section id="section_commentaire_overflow">
+			<section id="section_commentaire_overflow"> 
 				<?php
 				$db = mysqli_connect('localhost', 'root', '', 'discussion');
 				$com = "SELECT message, login, date FROM messages INNER JOIN utilisateurs ON utilisateurs.id = messages.id_utilisateur ORDER BY date DESC ";
@@ -234,5 +234,4 @@ if (isset($_POST["envoyer"])) {
 		</main>
 	</section>
 </body>
-
 </html>
